@@ -9,9 +9,13 @@ public class Game {
     public void Start() {
         var sceneResult = new SceneResult("MainMenu");
         do {
-            var scene = GetNextScene(sceneResult);
-            sceneResult = scene.Run();
+            sceneResult = RunNext(sceneResult);
         } while (!sceneResult.NeedToExit());
+    }
+    
+    private SceneResult RunNext(SceneResult sceneResult) {
+        var scene = GetNextScene(sceneResult);
+        return scene.Run();
     }
     
     private IScene GetNextScene(SceneResult sceneResult) {
@@ -19,7 +23,7 @@ public class Game {
         try {
             var sceneType = Class.forName("Game.Scenes." + sceneResult.GetNextSceneName());
             var sceneCtor = sceneType.getConstructor(); //
-            scene =  sceneCtor.newInstance();
+            scene = sceneCtor.newInstance();
             if (!(scene instanceof IScene)) {
                 throw new InstantiationException("Class " + sceneResult.GetNextSceneName() + " is not a scene!");
             }
