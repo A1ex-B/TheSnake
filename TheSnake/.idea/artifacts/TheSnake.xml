@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="ear" build-on-make="true" name="TheSnake">
+    <output-path>$PROJECT_DIR$/out/artifacts/TheSnake</output-path>
+    <root id="archive" name="TheSnake.ear" />
+  </artifact>
+</component>
