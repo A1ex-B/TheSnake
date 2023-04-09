@@ -8,15 +8,15 @@ public class MainMenu implements IScene {
     public SceneResult Run() {
         System.out.println("Hello!");
         int ch = 0;
+        
         try {
-            ch = System.in.read();
-            System.in.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("Ch = " + ch);
-        try {
-            var temp = RawConsoleInput.read(true);
+            do {
+                ch = RawConsoleInput.read(true);
+                System.out.print(ch + "    \r");
+            }
+            while (ch != 27);
+            System.out.println("Bye! Press any key...");
+            System.in.read();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
