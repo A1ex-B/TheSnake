@@ -22,10 +22,8 @@ public class KeyListener {
                 try {
                     int nextKeyCode;
                     nextKeyCode = RawConsoleInput.read(false);
-                    if (nextKeyCode != -2 && nextKeyCode != lastKey.GetCode()) {
-                        System.out.println("next code: " + nextKeyCode);
-                    }
                     var nextKey = Keys.GetKeyByCode(nextKeyCode);
+
                     synchronized (syncObject) {
                         if (nextKey != Keys.NotAvailable && lastKey != nextKey) {
                             lastKey = nextKey;
@@ -39,11 +37,9 @@ public class KeyListener {
     }
     
     public KeyListener(int waitTimeout) {
-        System.out.println("Called constructor of " + KeyListener.class.getSimpleName() + ".");
         this.waitTimeout = waitTimeout;
         listener = new Listener("Listener");
         listener.start();
-        System.out.println("Started thread of " + Listener.class.getSimpleName() + ". is Alive = " + isAlive);
     }
     
     public void Stop() {
