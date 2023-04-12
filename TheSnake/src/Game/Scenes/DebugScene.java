@@ -1,7 +1,6 @@
 package Game.Scenes;
 
 import Game.Context.*;
-import Game.GlobalConfiguration;
 
 import java.io.IOException;
 
@@ -10,7 +9,7 @@ public class DebugScene implements IScene {
         System.out.println("Hello!");
         var key = Key.Default;
         var keyListener = executionContext.keyListener;
-        var drawer = executionContext.drawer;
+        var drawer = executionContext.canvas;
         try {
             var prevKey = Key.Default;
             int counter = 0;
@@ -58,6 +57,8 @@ public class DebugScene implements IScene {
             System.out.println("Bye! Press any key...");
             System.in.read();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (OutOfCanvasException e) {
             throw new RuntimeException(e);
         }
         return new SceneResult("Exit", true);

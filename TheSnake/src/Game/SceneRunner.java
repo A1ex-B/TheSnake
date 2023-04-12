@@ -11,7 +11,7 @@ public class SceneRunner {
     private ExecutionContext executionContext;
     
     public SceneRunner() {
-        executionContext = new ExecutionContext();
+        executionContext = new ExecutionContext(80, 40);
     }
     public void Start() {
         Thread.currentThread().setName("Runner");

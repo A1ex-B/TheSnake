@@ -1,11 +1,11 @@
 package Game.Context;
 
 public class ExecutionContext {
-    public Drawer drawer;
+    public Canvas canvas;
     public KeyListener keyListener;
     
-    public ExecutionContext() {
-        this.drawer = new Drawer();
+    public ExecutionContext(int canvasWidth, int canvasHeight) {
+        this.canvas = new Canvas(canvasWidth, canvasHeight);
         this.keyListener = new KeyListener();
     }
 }
