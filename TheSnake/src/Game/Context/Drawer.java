@@ -1,8 +1,5 @@
 package Game.Context;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 /**
  * Must be single instance.
  */
@@ -14,7 +11,8 @@ public class Drawer {
     private String getLine(Point[] points) {
         var line = new StringBuilder();
         int prevX = -1024;
-        String shift = null;
+        String shift;
+        
         for (var point: points) {
             if (point.x == prevX + 1) {
                 shift = "";
@@ -24,11 +22,11 @@ public class Drawer {
             prevX = point.x;
             line.append(shift + point.character);
         }
+        
         return line.toString();
     }
     
     public synchronized void draw(Point[] points) {
-        int prevX = -1024;
         System.out.print(getLine(points));
     }
 }
