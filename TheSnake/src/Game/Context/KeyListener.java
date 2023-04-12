@@ -1,16 +1,12 @@
 package Game.Context;
 
-import Game.GlobalConfiguration;
-
-import java.io.Console;
 import java.io.IOException;
 
 public class KeyListener {
     private final Object syncObject = new Object();
-    private Keys lastKey = Keys.ArrowUp;
+    private Key lastKey = Key.ArrowUp;
     private boolean isAlive = true;
     private Listener listener;
-    private int waitTimeout;
     
     private class Listener extends Thread {
         private Listener(String name) {
@@ -21,11 +17,11 @@ public class KeyListener {
             while (isAlive) {
                 try {
                     int nextKeyCode;
-                    nextKeyCode = RawConsoleInput.read(false);
-                    var nextKey = Keys.GetKeyByCode(nextKeyCode);
+                    nextKeyCode = RawConsoleInput.read(true);
+                    var nextKey = Key.GetKeyByCode(nextKeyCode);
 
                     synchronized (syncObject) {
-                        if (nextKey != Keys.NotAvailable && lastKey != nextKey) {
+                        if (nextKey != Key.NotAvailable && lastKey != nextKey) {
                             lastKey = nextKey;
                         }
                     }
@@ -36,8 +32,7 @@ public class KeyListener {
         }
     }
     
-    public KeyListener(int waitTimeout) {
-        this.waitTimeout = waitTimeout;
+    protected KeyListener() {
         listener = new Listener("Listener");
         listener.start();
     }
@@ -51,9 +46,17 @@ public class KeyListener {
         }
     }
     
-    public Keys GetKey() {
+    public Key GetKey() {
         synchronized (syncObject) {
             return lastKey;
+        }
+    }
+    
+    public Key ConsumeKey() {
+        synchronized (syncObject) {
+            var nextKey = lastKey;
+            lastKey = Key.NotAvailable;
+            return nextKey;
         }
     }
 }

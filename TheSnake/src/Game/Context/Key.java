@@ -2,7 +2,7 @@ package Game.Context;
 
 import java.util.HashMap;
 
-public enum Keys {
+public enum Key {
     Esc(27),
     ArrowUp(57416),
     ArrowLeft(57419),
@@ -13,16 +13,16 @@ public enum Keys {
     NotAvailable(-2);
     
     private int code;
-    private static HashMap<Integer, Keys> allKeys = null;
+    private static HashMap<Integer, Key> allKeys = null;
     
     private static void SaveAllKeys() {
-        allKeys = new HashMap<Integer, Keys>();
-        for (var val : Keys.values()) {
+        allKeys = new HashMap<Integer, Key>();
+        for (var val : Key.values()) {
             allKeys.put(val.GetCode(), val);
         }
     }
     
-    Keys(int code) {
+    Key(int code) {
         this.code = code;
     }
     
@@ -30,13 +30,13 @@ public enum Keys {
         return code;
     }
     
-    public static Keys GetKeyByCode(int code) {
+    public static Key GetKeyByCode(int code) {
         if (allKeys == null) {
             SaveAllKeys();
         }
         if (allKeys.containsKey(code)) {
             return allKeys.get(code);
         }
-        return Keys.Default;
+        return Key.Default;
     }
 }

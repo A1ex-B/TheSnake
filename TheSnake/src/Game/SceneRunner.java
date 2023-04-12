@@ -1,5 +1,6 @@
 package Game;
 
+import Game.Context.ExecutionContext;
 import Game.Scenes.DebugScene;
 import Game.Scenes.IScene;
 import Game.Scenes.SceneResult;
@@ -7,19 +8,19 @@ import Game.Scenes.SceneResult;
 import java.lang.reflect.InvocationTargetException;
 
 public class SceneRunner {
+    private ExecutionContext executionContext;
+    
+    public SceneRunner() {
+        executionContext = new ExecutionContext();
+    }
     public void Start() {
         Thread.currentThread().setName("Runner");
         var sceneResult = new SceneResult(DebugScene.class.getSimpleName()); // ForDebug
 //        var sceneResult = new SceneResult("MainMenu");
         do {
             var nextScene = GetNextScene(sceneResult);
-            sceneResult = nextScene.Run();
+            sceneResult = nextScene.Run(executionContext);
         } while (!sceneResult.NeedToExit());
-    }
-    
-    private SceneResult RunNext(SceneResult sceneResult) {
-        var scene = GetNextScene(sceneResult);
-        return scene.Run();
     }
     
     private IScene GetNextScene(SceneResult sceneResult) {

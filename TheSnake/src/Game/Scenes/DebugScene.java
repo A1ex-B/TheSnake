@@ -1,30 +1,26 @@
 package Game.Scenes;
 
-import Game.Context.Drawer;
-import Game.Context.KeyListener;
-import Game.Context.Keys;
-import Game.Context.Point;
+import Game.Context.*;
 import Game.GlobalConfiguration;
 
-import java.io.Console;
 import java.io.IOException;
 
 public class DebugScene implements IScene {
-    public SceneResult Run() {
+    public SceneResult Run(ExecutionContext executionContext) {
         System.out.println("Hello!");
-        var key = Keys.Default;
-        var keyListener = new KeyListener(GlobalConfiguration.WaitBetweenKeyListenig);
-        var drawer = new Drawer();
+        var key = Key.Default;
+        var keyListener = executionContext.keyListener;
+        var drawer = executionContext.drawer;
         try {
-            var prevKey = Keys.Default;
+            var prevKey = Key.Default;
             int counter = 0;
             System.out.println("Started debug scene.");
             
             int x = 0, y = 0;
             int maxX = 20, maxY = 20;
             do {
-                key = keyListener.GetKey();
-                if (prevKey != key) {
+                key = keyListener.ConsumeKey();
+                if (true || prevKey != key) {
                     switch (key) {
                         case ArrowUp:
                             if (y > 0) {
@@ -57,7 +53,7 @@ public class DebugScene implements IScene {
                     prevKey = key;
                 }
             }
-            while (key != Keys.Esc);
+            while (key != Key.Esc);
             keyListener.Stop();
             System.out.println("Bye! Press any key...");
             System.in.read();

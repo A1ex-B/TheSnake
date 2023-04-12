@@ -5,7 +5,7 @@ package Game.Context;
  */
 public class Drawer {
     private String getPos(int x, int y) {
-        return String.format("%c[%d;%df", Keys.Esc.GetCode(), y, x);
+        return String.format("%c[%d;%df", Key.Esc.GetCode(), y, x);
     }
     
     private String getLine(Point[] points) {
@@ -24,6 +24,11 @@ public class Drawer {
         }
         
         return line.toString();
+    }
+    
+    protected Drawer()
+    {
+    
     }
     
     public synchronized void draw(Point[] points) {
