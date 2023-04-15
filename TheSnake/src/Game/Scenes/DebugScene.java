@@ -1,53 +1,56 @@
 package Game.Scenes;
 
 import Game.Context.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 public class DebugScene implements IScene {
-    public SceneResult Run(ExecutionContext executionContext) {
+    public SceneResult Run(@NotNull ExecutionContext executionContext) {
         System.out.println("Hello!");
         var key = Key.Default;
         var keyListener = executionContext.keyListener;
-        var drawer = executionContext.canvas;
+        var canvas = executionContext.canvas;
         try {
+            System.in.read();
             var prevKey = Key.Default;
             int counter = 0;
-            System.out.println("Started debug scene.");
-            
-            int x = 0, y = 0;
-            int maxX = 20, maxY = 20;
+            System.out.println(" Started debug scene.");
+            canvas.draw(canvas.prepareRectangle(1, 1, canvas.getWidth() - 1, canvas.getHeight() - 1));
+            System.in.read();
+            if (true) {
+                return new SceneResult();
+            }
+            var w = 2;
+            var h = 2;
+            int x = 1, y = 1;
             do {
                 key = keyListener.ConsumeKey();
                 if (true || prevKey != key) {
                     switch (key) {
                         case ArrowUp:
-                            if (y > 0) {
+                            if (y > 1) {
                                 y--;
                             }
                             break;
                         case ArrowLeft:
-                            if (x > 0) {
+                            if (x > 1) {
                                 x--;
                             }
                             break;
                         case ArrowDown:
-                            if (y < maxY) {
+                            if (y < canvas.getHeight() - h) {
                                 y++;
                             }
                             break;
                         case ArrowRight:
-                            if (x < maxX) {
+                            if (x < canvas.getWidth() - w) {
                                 x++;
                             }
                             break;
                     }
-                    var points = new Point[]{
-                            new Point(x, y, 'O'),
-                            new Point(x + 1, y, '-'),
-                            new Point(x + 2, y, 'X'),
-                    };
-                    drawer.draw(points);
+                    
+                    canvas.draw(canvas.prepareRectangle(x, y, w, h));
 //                    System.out.print("<3" + key + ", "+ key.GetCode() + ";");
                     prevKey = key;
                 }
@@ -61,6 +64,6 @@ public class DebugScene implements IScene {
         } catch (OutOfCanvasException e) {
             throw new RuntimeException(e);
         }
-        return new SceneResult("Exit", true);
+        return new SceneResult();
     }
 }
