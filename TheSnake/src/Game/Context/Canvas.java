@@ -19,7 +19,7 @@ public class Canvas {
     private int height;
     
     private void checkToCanvas(Point point) throws OutOfCanvasException {
-        if (point.x < 0 || point.x > width - 1 || point.y < 0 || point.y > height - 1) {
+        if (point.x < 1 || point.x > width || point.y < 1 || point.y > height) {
             throw new OutOfCanvasException("Point '" + point.character + "', code " + (int) point.character + " [" + point.x + ";" + point.x + "] is out of canvas!");
         }
     }
@@ -41,7 +41,7 @@ public class Canvas {
         
         for (var point : points) {
             checkToCanvas(point);
-            if (point.x == prevX + 1 && false) {
+            if (point.x == prevX + 1) {
                 shift = "";
             } else {
                 shift = getPos(point.x, point.y);
@@ -70,7 +70,7 @@ public class Canvas {
         System.out.print(getLine(points));
     }
     
-    public Point[] prepareRectangle(int topLeftX, int topLeftY, int width, int height) {
+    public Point[] prepareRectangle(int topLeftX, int topLeftY, int width, int height) throws OutOfCanvasException {
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("Width and height cannot be less than 1. Provided:"
                     + " width: " + width + ", height: " + height + ".");
@@ -87,7 +87,7 @@ public class Canvas {
                 rectanglePoints[xCount] = new Point(topLeftX + xCount, topLeftY, horizontalLine);
             }
         } else if (width == 1) {
-            rectanglePoints = new Point[width];
+            rectanglePoints = new Point[height];
             for (int yCount = 0; yCount < height; yCount++) {
                 rectanglePoints[yCount] = new Point(topLeftX, topLeftY + yCount, verticalLine);
             }
@@ -112,6 +112,7 @@ public class Canvas {
                 rectanglePoints[rectangleIndex++] = new Point(topLeftX, topLeftY + height - index - 1, verticalLine);
             }
         }
+        checkToCanvas(rectanglePoints);
         
         return rectanglePoints;
     }

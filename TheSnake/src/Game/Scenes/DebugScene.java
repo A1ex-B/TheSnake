@@ -16,7 +16,12 @@ public class DebugScene implements IScene {
             var prevKey = Key.Default;
             int counter = 0;
             System.out.println(" Started debug scene.");
-            canvas.draw(canvas.prepareRectangle(1, 1, canvas.getWidth() - 1, canvas.getHeight() - 1));
+            canvas.draw(canvas.prepareRectangle(1, 1, canvas.getWidth(), canvas.getHeight()));
+            canvas.draw(canvas.prepareRectangle(2, 2, canvas.getWidth() - 1, canvas.getHeight() - 1));
+            canvas.draw(canvas.prepareRectangle(3, 3, 3, 3));
+            canvas.draw(canvas.prepareRectangle(3, 6, 20, 1));
+            canvas.draw(canvas.prepareRectangle(3, 7, 1, 1));
+            canvas.draw(canvas.prepareRectangle(3, 8, 1, 5));
             System.in.read();
             if (true) {
                 return new SceneResult();
