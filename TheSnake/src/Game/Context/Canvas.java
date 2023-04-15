@@ -9,12 +9,7 @@ import java.util.ArrayList;
  * Must be single instance.
  */
 public class Canvas {
-    private final char leftUpperCorner = 0x2554;
-    private final char leftBottomCorner = 0x255a;
-    private final char rightUpperCorner = 0x2557;
-    private final char rightBottomCorner = 0x255d;
-    private final char horizontalLine = 0x2550;
-    private final char verticalLine = 0x2551;
+    
     private int width;
     private int height;
     
@@ -34,7 +29,8 @@ public class Canvas {
         return String.format("%c[%d;%df", Key.Esc.GetCode(), y, x);
     }
     
-    private String getLine(Point @NotNull [] points) throws OutOfCanvasException {
+    private @NotNull String getLine(Point @NotNull [] points) throws OutOfCanvasException {
+        checkToCanvas(points);
         var line = new StringBuilder();
         int prevX = -1024;
         String shift;
@@ -58,62 +54,19 @@ public class Canvas {
         this.height = height;
     }
     
-    public int getWidth() {
+    protected int getWidth() {
         return this.width;
     }
     
-    public int getHeight() {
+    protected int getHeight() {
         return this.height;
     }
     
-    public void draw(Point[] points) throws OutOfCanvasException {
+    protected void draw(Point[] points) throws OutOfCanvasException {
         System.out.print(getLine(points));
     }
     
-    public Point[] prepareRectangle(int topLeftX, int topLeftY, int width, int height) throws OutOfCanvasException {
-        if (width < 1 || height < 1) {
-            throw new IllegalArgumentException("Width and height cannot be less than 1. Provided:"
-                    + " width: " + width + ", height: " + height + ".");
-        }
-        if (width == 1 && height == 1) {
-            return new Point[]{
-                    new Point(topLeftX, topLeftY, leftUpperCorner)
-            };
-        }
-        Point[] rectanglePoints;
-        if (height == 1) {
-            rectanglePoints = new Point[width];
-            for (int xCount = 0; xCount < width; xCount++) {
-                rectanglePoints[xCount] = new Point(topLeftX + xCount, topLeftY, horizontalLine);
-            }
-        } else if (width == 1) {
-            rectanglePoints = new Point[height];
-            for (int yCount = 0; yCount < height; yCount++) {
-                rectanglePoints[yCount] = new Point(topLeftX, topLeftY + yCount, verticalLine);
-            }
-        } else {
-            rectanglePoints = new Point[(width + height) * 2 - 4];
-            int rectangleIndex = 0;
-            
-            rectanglePoints[rectangleIndex++] = new Point(topLeftX, topLeftY, leftUpperCorner);
-            for (var index = 1; index < width - 1; index++) {
-                rectanglePoints[rectangleIndex++] = new Point(topLeftX + index, topLeftY, horizontalLine);
-            }
-            rectanglePoints[rectangleIndex++] = new Point(topLeftX + width - 1, topLeftY, rightUpperCorner);
-            for (var index = 1; index < height - 1; index++) {
-                rectanglePoints[rectangleIndex++] = new Point(topLeftX + width - 1, topLeftY + index, verticalLine);
-            }
-            rectanglePoints[rectangleIndex++] = new Point(topLeftX + width - 1, topLeftY + height - 1, rightBottomCorner);
-            for (var index = 1; index < width - 1; index++) {
-                rectanglePoints[rectangleIndex++] = new Point(topLeftX + width - index - 1, topLeftY + height - 1, horizontalLine);
-            }
-            rectanglePoints[rectangleIndex++] = new Point(topLeftX, topLeftY + height - 1, leftBottomCorner);
-            for (var index = 1; index < height - 1; index++) {
-                rectanglePoints[rectangleIndex++] = new Point(topLeftX, topLeftY + height - index - 1, verticalLine);
-            }
-        }
-        checkToCanvas(rectanglePoints);
-        
-        return rectanglePoints;
+    protected void resetPosition() {
+        System.out.print(getPos(1, 1));
     }
 }
