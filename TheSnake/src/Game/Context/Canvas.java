@@ -13,8 +13,12 @@ public class Canvas {
     private int width;
     private int height;
     
+    private boolean isFitToCanvas(Point point) {
+        return !(point.x < 1 || point.x > width || point.y < 1 || point.y > height);
+    }
+    
     private void checkToCanvas(Point point) throws OutOfCanvasException {
-        if (point.x < 1 || point.x > width || point.y < 1 || point.y > height) {
+        if (!isFitToCanvas(point)) {
             throw new OutOfCanvasException("Point '" + point.character + "', code " + (int) point.character + " [" + point.x + ";" + point.x + "] is out of canvas!");
         }
     }
@@ -68,5 +72,9 @@ public class Canvas {
     
     protected void resetPosition() {
         System.out.print(getPos(1, 1));
+    }
+    
+    protected boolean isFitToCanvas(int x, int y) {
+        return isFitToCanvas(new Point(x, y, (char) 1));
     }
 }

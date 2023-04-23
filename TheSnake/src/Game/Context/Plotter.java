@@ -64,11 +64,11 @@ public class Plotter {
         return points;
     }
     
-    public int getWidth() {
+    public int getCanvasWidth() {
         return this.canvas.getWidth();
     }
     
-    public int getHeight() {
+    public int getCanvasHeight() {
         return this.canvas.getHeight();
     }
     
@@ -84,5 +84,9 @@ public class Plotter {
     
     public void resetPosition() {
         canvas.resetPosition();
+    }
+    
+    public boolean isFitToCanvas(int x, int y) {
+        return canvas.isFitToCanvas(x, y);
     }
 }

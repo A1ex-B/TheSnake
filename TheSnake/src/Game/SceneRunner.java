@@ -11,7 +11,7 @@ public class SceneRunner {
     private ExecutionContext executionContext;
     
     public SceneRunner() {
-        executionContext = new ExecutionContext(25, 25);
+        executionContext = new ExecutionContext(GlobalConfiguration.canvasWidth, GlobalConfiguration.canvasHeight, GlobalConfiguration.startTimerDelay);
     }
     public void Start() {
         Thread.currentThread().setName("Runner");
