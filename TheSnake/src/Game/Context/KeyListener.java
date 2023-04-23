@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class KeyListener {
     private final Object syncObject = new Object();
-    private Key lastKey = Key.ArrowUp;
+    private Key lastKeyPressed = Key.ArrowUp;
     private boolean isAlive = true;
     private Listener listener;
     
@@ -21,8 +21,8 @@ public class KeyListener {
                     var nextKey = Key.GetKeyByCode(nextKeyCode);
 
                     synchronized (syncObject) {
-                        if (nextKey != Key.NotAvailable && lastKey != nextKey) {
-                            lastKey = nextKey;
+                        if (nextKey != Key.NotAvailable && lastKeyPressed != nextKey) {
+                            lastKeyPressed = nextKey;
                         }
                     }
                 } catch (IOException e) {
@@ -48,14 +48,14 @@ public class KeyListener {
     
     public Key GetKey() {
         synchronized (syncObject) {
-            return lastKey;
+            return lastKeyPressed;
         }
     }
     
     public Key ConsumeKey() {
         synchronized (syncObject) {
-            var nextKey = lastKey;
-            lastKey = Key.NotAvailable;
+            var nextKey = lastKeyPressed;
+            lastKeyPressed = Key.NotAvailable;
             return nextKey;
         }
     }
