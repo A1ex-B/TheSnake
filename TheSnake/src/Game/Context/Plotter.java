@@ -4,13 +4,13 @@ import Game.Context.Lines.Lines;
 import org.jetbrains.annotations.NotNull;
 
 public class Plotter {
-    private Canvas canvas;
+    private final Canvas canvas;
     
     public Plotter(int canvasWidth, int canvasHeight) {
         this.canvas = new Canvas(canvasWidth, canvasHeight);
     }
     
-    private Point @NotNull [] prepareRectangle(int topLeftX, int topLeftY, int width, int height, Lines lines) throws OutOfCanvasException {
+    private Point @NotNull [] prepareRectangle(int topLeftX, int topLeftY, int width, int height, Lines lines) {
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("Width and height cannot be less than 1. Provided:"
                     + " width: " + width + ", height: " + height + ".");
