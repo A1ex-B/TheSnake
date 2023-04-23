@@ -1,21 +1,26 @@
 package Game;
 
+import Game.Context.ExecutionContext;
+import Game.Scenes.DebugScene;
 import Game.Scenes.IScene;
 import Game.Scenes.SceneResult;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class Game {
-    public void Start() {
-        var sceneResult = new SceneResult("MainMenu");
-        do {
-            sceneResult = RunNext(sceneResult);
-        } while (!sceneResult.NeedToExit());
-    }
+public class SceneRunner {
+    private ExecutionContext executionContext;
     
-    private SceneResult RunNext(SceneResult sceneResult) {
-        var scene = GetNextScene(sceneResult);
-        return scene.Run();
+    public SceneRunner() {
+        executionContext = new ExecutionContext(GlobalConfiguration.canvasWidth, GlobalConfiguration.canvasHeight, GlobalConfiguration.startTimerDelay);
+    }
+    public void Start() {
+        Thread.currentThread().setName("Runner");
+        var sceneResult = new SceneResult(DebugScene.class.getSimpleName()); // ForDebug
+//        var sceneResult = new SceneResult("MainMenu");
+        do {
+            var nextScene = GetNextScene(sceneResult);
+            sceneResult = nextScene.Run(executionContext);
+        } while (!sceneResult.NeedToExit());
     }
     
     private IScene GetNextScene(SceneResult sceneResult) {

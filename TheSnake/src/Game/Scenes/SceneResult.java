@@ -1,26 +1,24 @@
 package Game.Scenes;
 
 public class SceneResult {
-    private String NextSceneName;
-    private boolean NeedExit = false;
-    
-    public SceneResult(String nextScene, boolean needExit) {
-        this(nextScene);
-        this.NeedExit = needExit;
-    }
+    private String nextSceneName;
+    private boolean needExit = false;
     
     public SceneResult(String nextScene) {
-        if (nextScene == null) {
-            throw new IllegalArgumentException("Parameter nextScene can't be null");
-        }
-        this.NextSceneName = nextScene;
+        this.nextSceneName = nextScene;
+        this.needExit = false;
+    }
+    
+    public SceneResult() {
+        this.nextSceneName = null;
+        this.needExit = true;
     }
     
     public String GetNextSceneName() {
-        return NextSceneName;
+        return nextSceneName;
     }
     
     public boolean NeedToExit() {
-        return NeedExit;
+        return needExit;
     }
 }
