@@ -39,6 +39,7 @@ public class KeyListener {
     
     public void Stop() {
         isAlive = false;
+        System.out.print("Press any key to exit...");
         try {
             listener.join();
         } catch (InterruptedException e) {

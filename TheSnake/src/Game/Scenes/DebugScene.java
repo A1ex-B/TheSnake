@@ -8,29 +8,23 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 public class DebugScene implements IScene {
-    public SceneResult Run(@NotNull ExecutionContext executionContext) {
+    public SceneResult run(@NotNull ExecutionContext executionContext) {
         System.out.println("Hello!");
         var key = Key.Default;
         var keyListener = executionContext.keyListener;
         var plotter = executionContext.plotter;
         
         try {
-            System.in.read();
-            for (var i = 0; i < 5; i++) {
-                System.out.print("i: " + i + "\r");
-                executionContext.timer.waitNextTick();
-            }
             var prevKey = Key.Default;
-            int counter = 0;
-            System.out.println(" Started debug scene. Press any key when ready. ");
+            System.out.println(" Started debug scene.");
             var lines = new SingleLines();
             var emptyLines = new EmptyLines();
-            plotter.drawRectangle(1, 1, plotter.getCanvasWidth(), plotter.getCanvasHeight(), lines);
+            plotter.drawRectangle(new VectorInt2d(1, 1), plotter.getCanvasWidth(), plotter.getCanvasHeight(), lines);
             
             var w = 4;
             var h = 3;
             int x = 2, y = 2;
-            plotter.drawRectangle(x, y, h + 3, h + 3, lines);
+            plotter.drawRectangle(new VectorInt2d(x, y), h + 3, h + 3, lines);
             do {
                 key = keyListener.GetKey();
                 if (true || prevKey != key) {
@@ -67,12 +61,12 @@ public class DebugScene implements IScene {
                         default:
                             isMove = false;
                     }
-                    isMove = plotter.isFitToCanvas(x + deltaX, y + deltaY);
+                    isMove = plotter.isFitToCanvas(new VectorInt2d(x + deltaX, y + deltaY));
                     if (isMove) {
                         x += deltaX;
                         y += deltaY;
-                        plotter.drawRectangle(prevX, prevY, w, h, emptyLines);
-                        plotter.drawRectangle(x, y, w, h, lines);
+                        plotter.drawRectangle(new VectorInt2d(prevX, prevY), w, h, emptyLines);
+                        plotter.drawRectangle(new VectorInt2d(x, y), w, h, lines);
                         plotter.resetPosition();
                     }
                     
@@ -81,10 +75,7 @@ public class DebugScene implements IScene {
                 executionContext.timer.waitNextTick();
             }
             while (key != Key.Esc);
-            plotter.drawString(1, plotter.getCanvasHeight(), "Bye! Press any key.");
-            keyListener.Stop();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            plotter.drawString(new VectorInt2d(1, plotter.getCanvasHeight()), "Bye! Press any key.");
         } catch (OutOfCanvasException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

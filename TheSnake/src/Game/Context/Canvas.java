@@ -14,12 +14,12 @@ public class Canvas {
     private int height;
     
     private boolean isFitToCanvas(Point point) {
-        return !(point.x < 1 || point.x > width || point.y < 1 || point.y > height);
+        return !(point.position.x < 1 || point.position.x > width || point.position.y < 1 || point.position.y > height);
     }
     
     private void checkToCanvas(Point point) throws OutOfCanvasException {
         if (!isFitToCanvas(point)) {
-            throw new OutOfCanvasException("Point '" + point.character + "', code " + (int) point.character + " [" + point.x + ";" + point.x + "] is out of canvas!");
+            throw new OutOfCanvasException("Point '" + point.character + "', code " + (int) point.character + " [" + point.position.x + ";" + point.position.x + "] is out of canvas!");
         }
     }
     
@@ -29,8 +29,8 @@ public class Canvas {
         }
     }
     
-    private String getPos(int x, int y) {
-        return String.format("%c[%d;%df", Key.Esc.GetCode(), y, x);
+    private String getPos(VectorInt2d position) {
+        return String.format("%c[%d;%df", Key.Esc.GetCode(), position.y, position.x);
     }
     
     private @NotNull String getLine(Point @NotNull [] points) throws OutOfCanvasException {
@@ -41,12 +41,12 @@ public class Canvas {
         
         for (var point : points) {
             checkToCanvas(point);
-            if (point.x == prevX + 1) {
+            if (point.position.x == prevX + 1) {
                 shift = "";
             } else {
-                shift = getPos(point.x, point.y);
+                shift = getPos(point.position);
             }
-            prevX = point.x;
+            prevX = point.position.x;
             line.append(shift).append(point.character);
         }
         
@@ -71,10 +71,10 @@ public class Canvas {
     }
     
     protected void resetPosition() {
-        System.out.print(getPos(1, 1));
+        System.out.print(getPos(new VectorInt2d(1, 1)));
     }
     
-    protected boolean isFitToCanvas(int x, int y) {
-        return isFitToCanvas(new Point(x, y, (char) 1));
+    protected boolean isFitToCanvas(VectorInt2d position) {
+        return isFitToCanvas(new Point(position, (char) 1));
     }
 }

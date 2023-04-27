@@ -10,4 +10,8 @@ public class ExecutionContext {
         this.keyListener = new KeyListener();
         this.timer = new Timer(startDelay);
     }
+    
+    public void close() {
+        keyListener.Stop();
+    }
 }

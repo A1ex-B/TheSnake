@@ -1,12 +1,10 @@
 package Game.Context;
 
 public class Point {
-    public final int x;
-    public final int y;
+    public final VectorInt2d position;
     public final char character;
-    protected Point(int x, int y, char character) {
-        this.x = x;
-        this.y = y;
+    protected Point(VectorInt2d position, char character) {
+        this.position = position;
         this.character = character;
     }
 }

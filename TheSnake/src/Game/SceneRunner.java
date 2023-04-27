@@ -1,8 +1,10 @@
 package Game;
 
 import Game.Context.ExecutionContext;
+import Game.Context.OutOfCanvasException;
 import Game.Scenes.DebugScene;
 import Game.Scenes.IScene;
+import Game.Scenes.MainMenu;
 import Game.Scenes.SceneResult;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,14 +15,15 @@ public class SceneRunner {
     public SceneRunner() {
         executionContext = new ExecutionContext(GlobalConfiguration.canvasWidth, GlobalConfiguration.canvasHeight, GlobalConfiguration.startTimerDelay);
     }
-    public void Start() {
+    public void Start() throws OutOfCanvasException {
         Thread.currentThread().setName("Runner");
-        var sceneResult = new SceneResult(DebugScene.class.getSimpleName()); // ForDebug
-//        var sceneResult = new SceneResult("MainMenu");
+//        var sceneResult = new SceneResult(DebugScene.class.getSimpleName()); // ForDebug
+        var sceneResult = new SceneResult(MainMenu.class.getSimpleName());
         do {
             var nextScene = GetNextScene(sceneResult);
-            sceneResult = nextScene.Run(executionContext);
+            sceneResult = nextScene.run(executionContext);
         } while (!sceneResult.NeedToExit());
+        executionContext.close();
     }
     
     private IScene GetNextScene(SceneResult sceneResult) {
