@@ -14,7 +14,7 @@ public class Canvas {
     private int height;
     
     private boolean isFitToCanvas(Point point) {
-        return !(point.position.x < 1 || point.position.x > width || point.position.y < 1 || point.position.y > height);
+        return !(point.position.x < 0 || point.position.x > width - 1 || point.position.y < 0 || point.position.y > height - 1);
     }
     
     private void checkToCanvas(Point point) throws OutOfCanvasException {

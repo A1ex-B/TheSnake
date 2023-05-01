@@ -1,5 +1,6 @@
 package Game.Context;
 
+import Game.Context.Lines.EmptyLines;
 import Game.Context.Lines.Lines;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,6 +81,15 @@ public class Plotter {
     public void drawString(VectorInt2d position, String string) throws OutOfCanvasException {
         var points = prepareString(position, string);
         canvas.draw(points);
+    }
+    
+    public void clearCanvas() throws OutOfCanvasException {
+        var emptyLines = new EmptyLines();
+        var width = getCanvasWidth();
+        var height = getCanvasHeight();
+        for (var line = 0; line < height; line++) {
+            drawRectangle(new VectorInt2d(0, line), width - 1, 1, emptyLines);
+        }
     }
     
     public void resetPosition() {

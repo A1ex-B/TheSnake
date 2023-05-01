@@ -2,7 +2,7 @@ package Game;
 
 import Game.Context.ExecutionContext;
 import Game.Context.OutOfCanvasException;
-import Game.Scenes.DebugScene;
+import Game.Scenes.Game;
 import Game.Scenes.IScene;
 import Game.Scenes.MainMenu;
 import Game.Scenes.SceneResult;
@@ -15,10 +15,10 @@ public class SceneRunner {
     public SceneRunner() {
         executionContext = new ExecutionContext(GlobalConfiguration.canvasWidth, GlobalConfiguration.canvasHeight, GlobalConfiguration.startTimerDelay);
     }
-    public void Start() throws OutOfCanvasException {
+    public void Start() throws OutOfCanvasException, InterruptedException {
         Thread.currentThread().setName("Runner");
 //        var sceneResult = new SceneResult(DebugScene.class.getSimpleName()); // ForDebug
-        var sceneResult = new SceneResult(MainMenu.class.getSimpleName());
+        var sceneResult = new SceneResult(Game.class.getSimpleName());
         do {
             var nextScene = GetNextScene(sceneResult);
             sceneResult = nextScene.run(executionContext);

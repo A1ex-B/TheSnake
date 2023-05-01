@@ -3,10 +3,13 @@ package Game;
 public class GlobalConfiguration {
     public static boolean DebugModeIsOn = false;
     public static int startTimerDelay = 300;
+    public static int startFoodScore = 10;
     public static double timerLevelUpAmount = 0.9;
+    public static double scoreLevelUpAmount = 1.1;
+    public static int foodsPerLevel = 1;
     public static int fieldWidth = 40;
     public static int fieldHeight = 30;
+    public static int maxFoodLifeTime = fieldWidth + fieldHeight;
     public static int canvasWidth = fieldWidth + 20;
     public static int canvasHeight = fieldHeight + 2;
-    
 }

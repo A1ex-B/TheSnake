@@ -35,7 +35,7 @@ public class MainMenu implements IScene {
                 new MenuItem("Debug", new SceneResult(DebugScene.class.getSimpleName())),
                 new MenuItem("Exit", new SceneResult())
         };
-        this.selectedIndex = 0;
+        this.selectedIndex = 1;
         itemMaxLen = Arrays.stream(items).map(item -> item.title.length()).max(Integer::compare).orElse(1);
     }
     
@@ -104,6 +104,7 @@ public class MainMenu implements IScene {
         windowHeight = items.length + 2;
         windowX = (executionContext.plotter.getCanvasWidth() - windowWidth) / 2;
         windowY = (executionContext.plotter.getCanvasHeight() - windowHeight) / 2;
+        executionContext.plotter.clearCanvas();
         drawWindow(executionContext);
         SceneResult result = null;
         while (result == null) {
